@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Filestore;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -27,8 +28,8 @@ class TestController extends Controller
         $path = null;
         if ($req->hasFile('photo')) {
             $file = $req->file('photo');
-            $filename = $file->getClientOriginalName();
-            $path = $file->storeAs('files' . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR . date('Gis'), $filename);
+            $filestore = Filestore::store($file);
+            $path = $filestore->path;
         }
 
         $user = User::create([
