@@ -12,6 +12,7 @@ class TestController extends Controller
 {
     function __construct()
     {
+        // $this->middleware('auth:api', ['only' => ['users', 'userDetail']]);
     }
 
     public function register(Request $req)
