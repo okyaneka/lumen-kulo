@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class TestController extends Controller
 {
     function __construct()
     {
+        // $this->middleware('auth:api', ['only' => ['users', 'userDetail']]);
     }
 
     public function register(Request $req)
@@ -45,9 +47,22 @@ class TestController extends Controller
 
     public function login(Request $req)
     {
+        $credentials = $req->only(['username', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $data = Auth::user();
+        $data->token = [
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ];
+
         return response()->json([
             'code' => Response::HTTP_OK,
-            'data' => 'Response'
+            'data' => $data
         ]);
     }
 
