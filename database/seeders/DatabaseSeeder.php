@@ -19,8 +19,10 @@ class DatabaseSeeder extends Seeder
         // $this->call('UsersTableSeeder');
         Admin::truncate();
         $admin = Admin::create([
+            'email' => 'admin@local.host',
             'username' => 'admin',
-            'password' => Hash::make('password123')
+            'password' => Hash::make('password123'),
+            'role' => Admin::ROLE_ADMIN,
         ]);
     }
 }

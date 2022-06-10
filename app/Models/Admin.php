@@ -14,9 +14,11 @@ class Admin extends Model implements JWTSubject, AuthenticatableContract, Author
 {
     use Authenticatable, Authorizable, HasFactory;
 
+    const ROLE_ADMIN = 'admin';
+
     protected $table = 'admin';
 
-    protected $fillable = ['username', 'password'];
+    protected $fillable = ['email', 'username', 'password', 'role'];
 
     protected $hidden = ['password'];
 
